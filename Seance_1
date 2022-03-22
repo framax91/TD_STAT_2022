@@ -1,0 +1,112 @@
+################################# TD ANALYSE UNIVARIEE ########################################################################
+#R studio facilite l'utilisation de R et le developpement de scripts
+#Sur la "Console" doivent etre affiches un paragraphe de bienvenu suivi de ">" en bleu (signifie que R 
+#est disponible en attente de la prochaine commande)
+#Le script (au dessus de la Console) repr?sente une memoire, un historique des commandes que le logiciel doit enchainer
+#
+
+## Manipulations de base - R est d'abord une grosse calculatrice
+1+3
+1+3
+450/78
+exp(-2)
+3*4
+3*8^7
+
+## OBJET : l'element de base
+## Principe : on cree des objets a partir desquelles on va ensuite pouvoir operer des traitements
+#Les objets sont stockes et on peut les reutiliser ulterieurement pour cela on utilise la fleche (operateir d'assignement) <- 
+#Cette fleche stocke ce qu'il y a à sa droite dans un objet dont le nom est indiqué à sa gauche.
+x <- -8
+# peut se lire : prend la valeur -8 et mets la dans un objet qui s'appelle x:
+x
+y <- 90
+x+8
+truc <--x + y
+truc
+truc    <-     x   +  y    #NB es espaces et les commentaires n'ont pas d'importance. On prililegie un espace entre chaque mot ou signe
+
+
+##Precisions syntaxiques : eviter les caracteres accentués ; R est sensible à la casse (x et X sont deux objets différents)
+##eviter les noms courts tels que c, q, t, C, D, F, I, T, max, min
+##pas d'espaces: utiliser . ou _ (privilégier _)
+#on prefere un nom d'objet pas trop long mais tout de meme suffisement explicite
+
+
+# les objets n'ont pas de memoire: 
+x <- 6
+x <- -62
+x
+x2 <- 6
+
+# les objets peuvent contenir plein de sortes d'information: chiffres mais aussi chaines de caracteres par exemple
+#ces "mots" sont delimit?s avec des guillemets simples ou doubles: ' ou ''
+chien <- "Dalmatien"
+
+##VECTEURS : 
+# Faire des stats suppose d’avoir plus d’une valeur.
+# Le vecteur est un type d’objet qui contient des valeurs dans R.
+# Il en existe plusieurs types :
+
+##VECTEURS UNIDIMENSIONNELS
+# numeric
+# integer
+# character
+# factor
+# logical
+##VECTEURS PLURIDIMENSIONNELS
+# list
+# matrix
+# data.frame
+
+#Créer un vecteur: 
+#operateur c (pour "combine" ou "concatenate") sert à combiner des valeurs ; valeurs numeriques ou alphanumeriques (caracteres)
+tailles <- c(167, 192, 173, 174, 172, 167, 171, 185, 163, 170)
+tailles
+class(tailles)
+
+#un "expériment" suggéré par vous
+tailles_augm <- c(167, 192, 173, 174, 172, 167, 171, 185, 163, 170) + 10
+tailles_augm #effectivement avec la commande + 10 après parenthèse on ajoute 10 à tous les valeurs! 
+# mais il y a de manière plus pratiques (cf. plus en base "les avnatages d'un vecteur")
+
+
+suite <- c(1:1000)
+suite
+
+#opérateur rep (pour "replicate")
+toto <- c(7,9,13)
+toto
+# on répète toto 3 fois
+rep(toto, 3)
+vecteur_rep <- rep(toto, 3)
+# on répète le premier terme une fois,
+# et le second deux fois...
+rep(toto, 1:3)
+
+nono <- c(1,3,5,7,9) #une preuve ultérieure suggérée par vous
+rep(nono, 1:5)
+
+#opérateur seq (pour "sequence"): créer des séries équidistantes de nombres
+suite <- seq(1,10) # équivalent à c(1:10)
+suite2 <- seq(0,30, 0.5) #de 0 à 30 avec écart de 3 unités
+
+#Un vecteur dans R est un objet qui peut contenir plusieurs informations du même type, potentiellement en très grand nombre.
+dipl <- c("BEP", "CAP", "Bac", "Licence", "CAP", "Bac", "Master")
+dipl
+class(dipl) #VECTEUR ALPHANUMERIQUE (de type character)
+table(dipl)
+str(dipl)
+# Opération sur plusieurs vecteurs alphanumériques
+sexe <- c("H","H","H","H","F","F","F")
+sexe2 <- rep(c("H","F"), c(4,3))
+table(dipl, sexe)
+table(dipl,sexe2)
+
+#L'avantage d'un vecteur est que lorsqu'on lui applique une opération, celle-ci s'applique à toutes les valeurs qu'il contient
+##Operations sur les vecteurs
+tailles+10
+tailles*2
+tailles-50
+tailles/10
+tailles^2
