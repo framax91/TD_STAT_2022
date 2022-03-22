@@ -110,3 +110,195 @@ tailles*2
 tailles-50
 tailles/10
 tailles^2
+
+### FIN SEANCE 1.A - DEBUT SEANCE 1.2
+
+##Combinaison de vecteurs/opérations sur plusieurs vecteurs
+poids <- c(86, 74, 83, 50, 78, 66, 66, 51, 50, 55)
+tailles.m <- tailles/100
+imc <- poids/(tailles.m^2)
+imc
+
+#On peut acceder a un element particulier en indiquant sa position au sein du vecteur entre crochets:
+dipl[4]
+
+#AFFICHER UN TEXTE
+cat("C'est quoi R ?")
+## C'est quoi R ?
+cat("C'est quoi \"R\" ?")
+## C'est quoi "R" ?
+cat("C'est quoi \"R\" ? Un truc de geek !")
+## C'est quoi "R" ? Un truc de geek !
+cat("C'est quoi \"R\" ? \n Un truc de geek !")
+## C'est quoi "R" ?
+## Un truc de geek !
+
+## VECTEURS LOGIQUES
+# Vecteurs logiques : T=TRUE et F=FALSE
+logic <- c(T,T,F,T)
+logic
+# NB: Préférer TRUE ou FALSE en toutes lettres, qui sont plus explicites.
+
+## MATRICE
+# La matrice est un vecteur à deux dimensions.
+# Première manière de créer une matrice : on créeun vecteur et on lui définit deux dimensions
+x <- 1:12
+x
+dim(x) <- c(3,4)
+x
+# Deuxième manière : la fonction matrix
+y <- matrix(1:12, nrow=3)
+y
+y <- matrix(1:12, nrow=3, byrow=T)
+y
+# On peut transformer cette matrice...
+colnames(x) <- LETTERS[1:4]
+# donne des noms aux colonnes
+rownames(x) <- paste("Indiv", 1:3, sep="")
+# donne des noms aux lignes
+x
+# transposition
+t(x) # transposition
+
+# Troisième manière : coller des lignes ou des colonnes
+cbind(A=1:4, B=5:8, C=9:12) #par colonne
+rbind(A=1:4, B=5:8, C=9:12) #par ligne
+#Exemple:
+tailles <- c(167, 192, 173, 174, 172, 167, 171, 185,
+             163, 170)
+poids <- c(86, 74, 83, 50, 78, 66, 66, 51, 50, 55)
+x <- cbind(tailles, poids)
+x
+
+## LISTES
+# Une liste est un objet composé d’un ou plusieurs vecteurs. 
+# Ces vecteurs peuvent être de n’importe quel type et de n’importe quelle taille. 
+# Beaucoup de fonctions stockent leurs résultats dans une liste.
+
+# Les éléments d'une liste n'ont pas forcément la même taille
+maliste <- list(mensuration1=tailles,
+                mensuration2=poids)
+maliste
+maliste$mensuration1
+maliste$mensuration2
+
+## DATA.FRAMES
+# Un data.frame est une liste composée de vecteurs de même taille.
+# Ces vecteurs peuvent être de différents types.
+ident <- paste("ID", 1:10, sep="")
+data1 <- data.frame(tailles, poids, ident)
+str(data1)
+# Autre possibilité en donnant un nom différent aux colonnes
+data2 <- data.frame(X=tailles, Y=poids, Z=ident)
+data2
+data1
+# On peut aussi renommer après coup
+data3 <- data.frame(tailles, poids, ident)
+names(data3) <- c("X", "Y", "Z")
+str(data3)
+data3
+
+## INDEXATION
+# Une seule dimension
+tailles
+tailles[1]
+tailles[c(1,3,10)]
+# Deux dimensions
+data1
+data1[1,] #la virgule nous donnes l'ensemble de variables pour un individu
+
+
+##FONCTIONS
+# Une fonction a un NOM, 
+# accepte des ARGUMENTS, 
+# retourne un RESULTAT 
+# et peut effectuer une ACTION (dessiner un graph, lire un fichier, etc.)
+## Exemple : L'operateur c est une fonction qui cree un vecteur
+
+##Fonctions utiles pour vecteurs ou variables num?riques
+length(tailles)   #Nombre d'elements
+mean(tailles)     #Moyenne
+var(tailles)      #Variance
+min(tailles)      #Minimum
+max(tailles)      #Maximum
+sd(tailles)       #ecart-type
+sum(tailles)      #somme des elements du vecteur
+(sum(tailles)/length(tailles))
+(sum(tailles)/length(tailles)) - mean(tailles)
+moy <- mean(tailles)
+sqrt(sum((tailles - moy)^2)/(length(tailles) - 1))
+
+toto <- (1:10)     #renvoie une sequence de nombre de 1 a 10 (equivalent a c(1,2,3))
+toto
+
+unique(dipl)      #Supprime tous les doublons
+
+## ARGUMENTS: 
+# Entre parentheses apres le nom de la fonction
+# Permet de préciser ce que l'on souhaite faire: objet sur lequel s'applique la fonction, parametrage...
+# Un argument utilisé dans plusieurs fonctions : na.rm=TRUE : 
+    # demande a R d'ignorer les valeurs manquantes dans le calcul
+
+tailles2 <- c(167, NA, 192, 173, 174, 172, 167, 171, NA, 185, 163, 170)
+tailles2
+mean(tailles2) #R considère par défaut qu'il ne peut pas calculer la moyenne si une des valeurs n'est pas disponible
+mean(tailles2, na.rm=TRUE) #2 arguments (rm pour remove)
+
+
+##Aide sur une fonction
+help("mean")
+?mean
+help.start()
+# et n'oubliez pas de demander à internet!
+# Voir aussi la rubrique "Help" de Rstudio 
+# + mailing-list + forums sur internet 
+
+## RECAPITULATIF
+# R fonctionne avec des objets. On en manipule principalement deux : les vecteurs et les fonctions. 
+# Les vecteurs contiennent les données.
+# Les fonctions prennent des arguments, modifient un vecteur et retournent un résultat.
+# Les résultats sont affichés (print()) dans la console. 
+# Pour qu’ils soient stockés en mémoire, il faut les assigner dans un objet.
+
+### EXERCICE 1 : On a demand? ? 4 m?nages le revenu du chef de m?nage, celui de son conjoint, et le nombre de personnes du m?nage.
+# Ménage 1 : Chef = 1200 ; Conjoint = 1450 ; Nb pers = 4
+# Ménage 1 : Chef = 1180 ; Conjoint = 1850 ; Nb pers = 2
+# Ménage 1 : Chef = 1750 ; Conjoint = 1690 ; Nb pers = 3
+# Ménage 1 : Chef = 2100 ; Conjoint = 0 ; Nb pers = 2
+
+
+### EXERCICE 2 : Dans l'exercice precedent, calculez le revenu minimum et le revenu maximum parmi ceux du chef de menage :
+
+
+### Recommencer avec les revenus suivants, parmi lesquels l'un des enquétés n'a pas voulu repondre :
+chef.na <- c(1200, 1180, 1750, NA)
+
+
+
+## Avant de pouvoir proceder a quelque analyse que ce soit, il faut dire a R ou se trouvent les donnees, et charger les extensions necessaires   
+library(foreign)
+library(rio)
+library(cluster)
+library(FactoMineR) #librairie pour les analyses factorielles
+library(survey)
+library(R2HTML)
+library(stats)
+library(lmtest) #librairie pour les regressions 
+library(TraMineR)
+library(xtable)
+library(lattice) 
+library(nnet) 
+library(questionr)
+library(GDAtools)
+library(missMDA)
+library(tables)
+library(tidyverse)
+
+#Definition du dossier par defaut avec lequel R va fonctionner. IL faut faire copier l'adresse du dossier dans lequel la base de donnees est presente
+#Puis la coller entre les guillemets comme argument de la fonction setwd. 
+#Enfin, verifier que les slashs sont dans le bon sens: /
+#Pour les macs, commencer par un slash et non par un ~
+setwd("/Volumes/GoogleDrive/Il mio Drive/Backup Hard Disk bianco Set 2020/Francesco/Teaching/Stat Sorbonne 2022/R_Stat_Sorbonne/Stat_Sorbonne")
+
+getwd() 
+#permet de voir dans quel dossier de travail/repertoire on est 
