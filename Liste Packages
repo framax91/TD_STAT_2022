@@ -1,0 +1,19 @@
+library(foreign)
+library(questionr)
+library(rio)
+library(cluster)
+library(FactoMineR) #librairie pour les analyses factorielles
+library(survey)
+library(R2HTML)
+library(stats)
+library(lmtest) #librairie pour les regressions 
+library(TraMineR)
+library(xtable)
+library(lattice) 
+library(nnet) 
+library(questionr)
+library(GDAtools)
+library(missMDA)
+library(tables)
+library(tidyverse)
+
