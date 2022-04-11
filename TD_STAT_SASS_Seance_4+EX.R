@@ -225,4 +225,115 @@ barplot(table_dipl_pourcentage, col=c("white","grey","yellow","orange","red"), l
 # voici le diagramme baton valeurs %
 
 
+### 1.2. -- Analyse et représentation d'une variable quantitative --
+## Comment faire avec une variable numerique ? 
 
+#Exemple : Age : quelle est la var "age" dans EVS ? -> v303
+table(EVS$v303, useNA="ifany") # v303 nous donne les effectifs par année de naissance
+
+class(EVS$v303) #on est bien avec une variable numerique, on peut donc faire des operations mathematiques
+
+#on crée une nouvelle variable age à partir de l'année de naissace. 
+#On sait quelle age au moment de l'enquete = date de l'enquete - annee de naissance donc on cree:
+EVS$age <- 2008-EVS$v303
+table(EVS$age) #on verifie que notre variable age donne bien des r?sultats coh?rents en regardant les effectifs associ?s ? chaque modalit?
+
+table(EVS$age, useNA="ifany")
+freq(EVS$age)# on regarde les frequences associees à chaque modalité
+quantile(EVS$age)
+class(EVS$age)
+
+## Representation graphique :
+# si besoin d'aide: www.duclert.org/Aide-memoire-R/graphiques/ 
+
+#diagramme en batones
+barplot(EVS$age)   #ne fonctionne pas
+barplot(table(EVS$age, useNA="ifany")) # donne le graphe mais sans aucune legende
+barplot(table(EVS$age, useNA="ifany"), legend.text="individus par age")
+barplot(table(EVS$age, useNA="ifany"), legend.text="individus par age", col="red")
+barplot(table(EVS$age, useNA="ifany"), legend.text="individus par age", col="red", xlab="Age")
+barplot(table(EVS$age, useNA="ifany"), legend.text="individus par age", col="red", xlab="Age", ylab="Effectifs")
+barplot(table(EVS$age, useNA="ifany"), legend.text="individus par age", col="orange", xlab="Age", ylab="Effectifs", 
+        main="Age des individus")
+barplot(table(EVS$age, useNA="ifany"), legend.text="individus par age", col="orange", xlab="Age", ylab="Effectifs", 
+        offset=20, main="Age des individus", cex.names=0.8) #offset: griglia y parte da 20
+barplot(table(EVS$age, useNA="ifany"), legend.text="individus par age", col="orange", xlab="Age", ylab="Effectifs", 
+        main="Age des individus", cex.names=0.6) 
+
+#histogramme
+hist(EVS$age)
+hist(EVS$age, col="green") # version par defaut
+hist(EVS$age, col="green", breaks=c(18,19,20,21,22,63,118)) #mais on peut aussi choisir les bornes de chaque baton
+hist(EVS$age, col="green", breaks=c(18,28,38,48,58,68,78,88,98,108,118))#mais il faut alors choisir des bornes lisibles et coh?rentes
+
+#bo?te ? moustache
+boxplot(EVS$age, main="Age des individus", ylab="Age", col="orange")
+
+
+abline(h = median(EVS$age, na.rm = TRUE), col = "navy", lty = 2)
+text(1.35, median(EVS$age, na.rm = TRUE) + 0.15, "Mediane", col = "navy")
+Q1 <- quantile(EVS$age, probs = 0.25, na.rm = TRUE)
+abline(h = Q1, col = "darkred")
+text(1.35, Q1 + 0.15, "Q1 : premier quartile", col = "darkred",lty = 2)
+Q3 <- quantile(EVS$age, probs = 0.75, na.rm = TRUE)
+abline(h = Q3, col = "darkred")
+text(1.35, Q3 + 0.15, "Q3 : troisieme quartile", col = "darkred", lty = 2)
+arrows(x0 = 0.7, y0 = quantile(EVS$age, probs = 0.75, na.rm = TRUE), x1 = 0.7, y1 = quantile(EVS$age, probs = 0.25,na.rm = TRUE), length = 0.1, code = 3)
+text(0.7, Q1 + (Q3 - Q1)/2 + 0.15, "h", pos = 2)
+
+mtext("L'ecart inter-quartile h contient 50 % des individus",side = 1)
+
+boxplot(EVS$age, ylab="Age", col="orange") #AC
+rug(EVS$age, side = 2)
+
+## Copier une représentation graphique dans un fichier word
+#lorsque la représenation graphique dans la fenetre en bas à droite vous convient, 
+#cliquer dans la bare des taches de la fenetre en bas à droite (onglet Plots) sur export, 
+#puis sur "Copy to Clipboard". Ouvrez un word et afites "Coller"
+#ou: de meme puis "Save an image" (pour exporter dans un fichier dans un dossier precis)
+
+## Nous allons maintenant retravailler la variable age en redécoupant les modalit?s
+## On peut decouper la variable age en 6 classes d'amplitude egale
+EVS$age_PI_6 <- cut(EVS$age,6) 
+table(EVS$age_PI_6, EVS$age, useNA="ifany")
+
+##On peut aussi choisir les frontieres des classes
+EVS$age_PI_7 <- cut(EVS$age, c(18, 25, 35, 45, 55, 65, 75, 118))
+table(EVS$age_PI_7, EVS$age, useNA="ifany") 
+#Attention: en ce cas et par defaut 
+#R a exclu les individus ages de 18 ans et inclut ceux de 65 !
+# CAS ou on inclut les 2 extremites : 
+EVS$age_PI_7 <- cut(EVS$age, c(18, 25, 35, 45, 55, 65, 75, 118), include.lowest=TRUE)
+table(EVS$age_PI_7, EVS$age, useNA="ifany") 
+# CAS ou on inclut les 18 ans et exclut les 65 : 
+EVS$age_PI_7 <- cut(EVS$age, c(18, 25, 35, 45, 55, 65, 75, 118), right=FALSE)
+table(EVS$age_PI_7, EVS$age, useNA="ifany") 
+# CAS ou on exclut les 2 extremites : bug !!  
+EVS$age_PI_7 <- cut(EVS$age, c(18, 25, 35, 45, 55, 65, 75, 118), include.lowest=FALSE, right=FALSE)
+
+table(EVS$age_PI_7, EVS$age, useNA="ifany") 
+
+# Voir help "cut" pour voir comment fonctionne la fonction, et ses options 
+
+##Et on peut renommer les intervalles en utilisant l'option labels
+EVS$age_PI_7 <- cut(EVS$age, c(18, 25, 35, 45, 55, 65, 75, 118), include.lowest=TRUE, 
+                    right=T, labels=c("<25", "25-35", "36-45", "46-55", 
+                                      "56-65", "65-75",">75"))
+table(EVS$age_PI_7, useNA="ifany")
+
+##Enfin, on peut demander a R de decouper des classes d'effectifs semblables (package rgrs)
+EVS$age_PI_EFF <- quant.cut(EVS$age, 6)
+table(EVS$age_PI_EFF, useNA="ifany")
+
+##Quelle representation?
+#Effectifs absolus ou relatifs
+class(EVS$age_PI_7)
+freq(EVS$age_PI_7, cum=TRUE, total=TRUE, digits=2, exclude=NA) 
+
+
+#Diagramme en baton
+barplot(table(EVS$age_PI_7), xlab="Ages", ylab="Effectifs", 
+        col="magenta", ylim=c(0, 600))
+boxplot(table(EVS$age_PI_7), xlab="Ages", ylab="Effectifs", 
+        col="magenta", ylim=c(0, 600))
+#AC --> comparer avec le graphique boxplot: quelle est la representation la plus lisible de l'age dans notre ?chantillon?
